@@ -14,16 +14,25 @@
                 @endforeach
             </div>
             @endif
+
             @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                 {{ session('success') }}
             </div>
             @endif
+
             <div class="bg-white shadow rounded-lg p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold">Daftar Barang</h3>
-                    <a href="{{ route('barang.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Tambah Barang</a>
+                    
+                    <!-- TOMBOL TAMBAH: Hanya Admin & Operator yang bisa lihat -->
+                    @auth
+                        @if(auth()->user()->isAdmin() || auth()->user()->isOperator())
+                            <a href="{{ route('barang.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Tambah Barang</a>
+                        @endif
+                    @endauth
                 </div>
+                
                 <table class="w-full text-sm text-left border">
                     <thead class="bg-gray-100">
                         <tr>
@@ -34,7 +43,13 @@
                             <th class="p-3 border">Satuan</th>
                             <th class="p-3 border">Stok</th>
                             <th class="p-3 border">Min. Stok</th>
-                            <th class="p-3 border">Aksi</th>
+                            
+                            <!-- KOLOM AKSI: Sembunyikan jika Kepala Gudang -->
+                            @auth
+                                @if(!auth()->user()->isKepalaGudang())
+                                    <th class="p-3 border">Aksi</th>
+                                @endif
+                            @endauth
                         </tr>
                     </thead>
                     <tbody>
@@ -47,16 +62,31 @@
                             <td class="p-3 border">{{ $barang->satuan }}</td>
                             <td class="p-3 border font-bold {{ $barang->stok <= $barang->stok_minimum ? 'text-red-600' : 'text-green-600' }}">{{ $barang->stok }}</td>
                             <td class="p-3 border">{{ $barang->stok_minimum }}</td>
-                            <td class="p-3 border">
-                                <a href="{{ route('barang.edit', $barang) }}" class="bg-yellow-400 text-white px-2 py-1 rounded text-xs">Edit</a>
-                                <form action="{{ route('barang.destroy', $barang) }}" method="POST" class="inline">
-                                    @csrf @method('DELETE')
-                                    <button onclick="return confirm('Hapus?')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Hapus</button>
-                                </form>
-                            </td>
+                            
+                            <!-- TOMBOL EDIT & HAPUS -->
+                            @auth
+                                @if(!auth()->user()->isKepalaGudang())
+                                    <td class="p-3 border">
+                                        <!-- EDIT: Bisa dilihat Admin & Operator -->
+                                        @if(auth()->user()->isAdmin() || auth()->user()->isOperator())
+                                            <a href="{{ route('barang.edit', $barang) }}" class="bg-yellow-400 text-white px-2 py-1 rounded text-xs">Edit</a>
+                                        @endif
+
+                                        <!-- HAPUS: Hanya bisa dilihat Admin -->
+                                        @if(auth()->user()->isAdmin())
+                                            <form action="{{ route('barang.destroy', $barang) }}" method="POST" class="inline">
+                                                @csrf @method('DELETE')
+                                                <button onclick="return confirm('Hapus?')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Hapus</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                @endif
+                            @endauth
                         </tr>
                         @empty
-                        <tr><td colspan="8" class="p-3 border text-center text-gray-400">Belum ada barang</td></tr>
+                        <tr>
+                            <td colspan="8" class="p-3 border text-center text-gray-400">Belum ada barang</td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>

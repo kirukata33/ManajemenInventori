@@ -1,13 +1,23 @@
 ﻿<x-app-layout>
 <x-slot name='header'><h2 class='font-semibold text-xl text-gray-800 leading-tight'>Barang Keluar</h2></x-slot>
 <div class='py-6'><div class='max-w-7xl mx-auto sm:px-6 lg:px-8'>
+
 @if(session('success'))
 <div class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4'>{{ session('success') }}</div>
 @endif
+
 <div class='bg-white shadow rounded-lg p-6'>
 <div class='flex justify-between items-center mb-4'>
 <h3 class='text-lg font-semibold'>Riwayat Barang Keluar</h3>
-<a href='{{ route("barang-keluar.create") }}' class='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600'>+ Catat Keluar</a>
+
+<!-- PROTEKSI ROLE: Tombol hanya muncul untuk Admin & Operator -->
+@auth
+    @if(auth()->user()->isAdmin() || auth()->user()->isOperator())
+        <a href='{{ route("barang-keluar.create") }}' class='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600'>+ Catat Keluar</a>
+    @endif
+@endauth
+<!-- AKHIR PROTEKSI -->
+
 </div>
 <table class='w-full text-sm text-left border'>
 <thead class='bg-gray-100'>
