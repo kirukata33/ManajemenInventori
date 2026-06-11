@@ -10,8 +10,22 @@ class BarangController extends Controller
     public function index()
     {
         // Semua role bisa melihat daftar barang
-        $barangs = Barang::all();
+        
+        // 1. Ambil value dari input search di URL (?search=...)
+        $search = request('search');
+
+        // 2. Query menggunakan when() agar dinamis
+        $barangs = Barang::latest()
+            ->when($search, function ($query, $search) {
+                $query->where('kode_barang', 'like', "%{$search}%")
+                      ->orWhere('nama_barang', 'like', "%{$search}%")
+                      ->orWhere('kategori', 'like', "%{$search}%");
+            })
+            ->get();
+
+        // 3. Stok menipis tidak perlu difilter, tetap tampilkan semua sebagai alert
         $stokMenipis = Barang::whereColumn('stok', '<=', 'stok_minimum')->get();
+
         return view('barang.index', compact('barangs', 'stokMenipis'));
     }
 
@@ -69,6 +83,7 @@ class BarangController extends Controller
             'satuan'       => 'required',
             'stok'         => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
+            'satuan'       => 'required|in:pcs,kg,liter,box,rim,lusin,meter,set',
         ]);
 
         $barang->update($request->all());
