@@ -55,7 +55,19 @@ class BarangController extends Controller
             'stok_minimum' => 'required|integer|min:0',
         ]);
 
-        Barang::create($request->all());
+        $barang = Barang::create($request->all());
+
+        // Catat sebagai riwayat barang masuk jika stok awal > 0
+        if ($barang->stok > 0) {
+            \App\Models\BarangMasuk::create([
+                'barang_id'     => $barang->id,
+                'jumlah'        => $barang->stok,
+                'tanggal_masuk' => now()->toDateString(),
+                'supplier'      => 'Sistem',
+                'keterangan'    => 'Stok Awal (Penambahan Barang Baru)',
+            ]);
+        }
+
         return redirect()->route('barang.index')
                          ->with('success', 'Barang berhasil ditambahkan!');
     }
@@ -85,6 +97,28 @@ class BarangController extends Controller
             'stok_minimum' => 'required|integer|min:0',
             'satuan'       => 'required|in:pcs,kg,liter,box,rim,lusin,meter,set',
         ]);
+
+        $stokLama = $barang->stok;
+        $stokBaru = $request->stok;
+
+        // Catat riwayat jika ada perubahan stok manual
+        if ($stokBaru > $stokLama) {
+            \App\Models\BarangMasuk::create([
+                'barang_id'     => $barang->id,
+                'jumlah'        => $stokBaru - $stokLama,
+                'tanggal_masuk' => now()->toDateString(),
+                'supplier'      => 'Sistem (Edit Manual)',
+                'keterangan'    => 'Penyesuaian penambahan stok melalui Edit Barang',
+            ]);
+        } elseif ($stokBaru < $stokLama) {
+            \App\Models\BarangKeluar::create([
+                'barang_id'      => $barang->id,
+                'jumlah'         => $stokLama - $stokBaru,
+                'tanggal_keluar' => now()->toDateString(),
+                'tujuan'         => 'Sistem (Edit Manual)',
+                'keterangan'     => 'Penyesuaian pengurangan stok melalui Edit Barang',
+            ]);
+        }
 
         $barang->update($request->all());
         return redirect()->route('barang.index')

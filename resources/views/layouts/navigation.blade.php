@@ -5,7 +5,7 @@
                 <div class="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/30 group-hover:shadow-indigo-500/50 transition-all duration-300">
                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                 </div>
-                <span class="ml-3 text-2xl font-extrabold text-white tracking-wide">Inven<span class="text-indigo-400">Track</span></span>
+                <span class="ml-3 text-2xl font-extrabold text-white tracking-wide">Invent<span class="text-indigo-400">Manager</span></span>
             </a>
         </div>
 

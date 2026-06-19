@@ -34,6 +34,9 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'cf-turnstile-response' => ['required', new \App\Rules\Turnstile()],
+        ], [
+            'cf-turnstile-response.required' => 'Mohon centang verifikasi keamanan di bawah.',
         ]);
 
         $user = User::create([

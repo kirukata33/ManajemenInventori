@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('logolaravel.png') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'InvenTrack') }}</title>
+    @php
+        $pageTitle = 'Dashboard';
+        if (request()->routeIs('barang.*')) $pageTitle = 'Manajemen Barang';
+        elseif (request()->routeIs('barang-masuk.*')) $pageTitle = 'Barang Masuk';
+        elseif (request()->routeIs('barang-keluar.*')) $pageTitle = 'Barang Keluar';
+        elseif (request()->routeIs('user.*')) $pageTitle = 'Manajemen User';
+        elseif (request()->routeIs('profile.*')) $pageTitle = 'Profil';
+    @endphp
+    <title>{{ $pageTitle }} - {{ config('app.name', 'InventManager') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -32,7 +41,7 @@
                         </svg>
                     </div>
                     <div :class="miniSidebar ? 'lg:hidden' : ''" class="transition-opacity duration-300">
-                        <span class="text-lg font-extrabold text-white tracking-tight">Inven<span class="text-indigo-400">Track</span></span>
+                        <span class="text-lg font-extrabold text-white tracking-tight">Invent<span class="text-indigo-400">Manager</span></span>
                         <span class="block text-[10px] font-medium text-slate-500 tracking-wider uppercase -mt-0.5">Inventory System</span>
                     </div>
                 </a>

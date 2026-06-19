@@ -11,7 +11,8 @@
         </div>
     </x-slot>
 
-    @if(session('success'))
+    <div x-data="{ showModal: false, barang: {} }">
+        @if(session('success'))
     <div class="alert alert-success">
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span>{{ session('success') }}</span>
@@ -55,7 +56,11 @@
                         <td>
                             <span class="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-mono font-semibold">{{ $item->barang->kode_barang }}</span>
                         </td>
-                        <td class="font-semibold text-slate-800">{{ $item->barang->nama_barang }}</td>
+                        <td class="font-semibold">
+                            <button type="button" @click="barang = {{ json_encode($item->barang) }}; showModal = true" class="text-indigo-600 hover:text-indigo-800 hover:underline focus:outline-none text-left transition-colors">
+                                {{ $item->barang->nama_barang }}
+                            </button>
+                        </td>
                         <td class="text-center">
                             <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-rose-100 text-rose-700 text-sm font-bold">-{{ $item->jumlah }}</span>
                         </td>
@@ -77,6 +82,66 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        </div>
+
+        <!-- Detail Modal -->
+        <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                <div x-show="showModal" x-transition.opacity class="fixed inset-0 transition-opacity bg-slate-900/60 backdrop-blur-sm" @click="showModal = false"></div>
+
+                <div x-show="showModal" 
+                     x-transition:enter="ease-out duration-300" 
+                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
+                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" 
+                     x-transition:leave="ease-in duration-200" 
+                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
+                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
+                     class="relative inline-block w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:my-8 sm:align-middle">
+                    
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-900">Detail Barang</h3>
+                        <button @click="showModal = false" class="text-slate-400 hover:text-slate-500 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+
+                    <div class="mt-4 space-y-4">
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Kode Barang</span>
+                            <span class="block mt-1 text-base font-bold text-slate-800" x-text="barang.kode_barang"></span>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama Barang</span>
+                            <span class="block mt-1 text-base font-medium text-slate-800" x-text="barang.nama_barang"></span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Kategori</span>
+                                <span class="block mt-1 text-sm font-medium text-slate-700" x-text="barang.kategori"></span>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Satuan</span>
+                                <span class="block mt-1 text-sm font-medium text-slate-700" x-text="barang.satuan"></span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Stok Saat Ini</span>
+                                <span class="block mt-1 text-lg font-bold text-indigo-600" x-text="barang.stok"></span>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Batas Minimum</span>
+                                <span class="block mt-1 text-lg font-bold text-rose-500" x-text="barang.stok_minimum"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+                        <button @click="showModal = false" class="btn btn-ghost">Tutup</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

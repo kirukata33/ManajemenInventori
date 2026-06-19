@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        <link rel="icon" type="image/png" href="{{ asset('logolaravel.png') }}">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ config('app.name', 'InvenTrack') }}</title>
+        <title>{{ config('app.name', 'InventManager') }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -25,7 +26,7 @@
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30" style="background: var(--gradient-primary);">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                         </div>
-                        <span class="text-2xl font-extrabold text-white tracking-tight">Inven<span class="text-indigo-400">Track</span></span>
+                        <span class="text-2xl font-extrabold text-white tracking-tight">Invent<span class="text-indigo-400">Manager</span></span>
                     </div>
 
                     <h2 class="text-4xl font-extrabold text-white leading-tight mb-4 tracking-tight">
@@ -65,7 +66,7 @@
                     <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: var(--gradient-primary);">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     </div>
-                    <span class="text-xl font-extrabold text-slate-900 tracking-tight">Inven<span class="text-indigo-600">Track</span></span>
+                    <span class="text-xl font-extrabold text-slate-900 tracking-tight">Invent<span class="text-indigo-600">Manager</span></span>
                 </div>
 
                 <div class="w-full max-w-md">

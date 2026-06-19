@@ -6,7 +6,7 @@
         </div>
         <div>
             <h1 class="text-xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Selamat datang kembali, {{ explode(' ', Auth::user()->name)[0] }} 👋</p>
+            <p class="text-xs text-slate-500 mt-0.5">Selamat datang kembali, {{ explode(' ', Auth::user()->name)[0] }}</p>
         </div>
     </div>
 </x-slot>

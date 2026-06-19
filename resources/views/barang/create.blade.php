@@ -37,7 +37,17 @@
                         </div>
                         <div class="form-group">
                             <label>Kategori</label>
-                            <input type="text" name="kategori" value="{{ old('kategori') }}" class="form-input" placeholder="Contoh: Elektronik">
+                            <select name="kategori" id="kategori" class="form-input">
+                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                <option value="Elektronik" {{ old('kategori') == 'Elektronik' ? 'selected' : '' }}>Elektronik</option>
+                                <option value="Pakaian" {{ old('kategori') == 'Pakaian' ? 'selected' : '' }}>Pakaian</option>
+                                <option value="Makanan" {{ old('kategori') == 'Makanan' ? 'selected' : '' }}>Makanan</option>
+                                <option value="Minuman" {{ old('kategori') == 'Minuman' ? 'selected' : '' }}>Minuman</option>
+                                <option value="Alat Tulis" {{ old('kategori') == 'Alat Tulis' ? 'selected' : '' }}>Alat Tulis</option>
+                                <option value="Peralatan Kantor" {{ old('kategori') == 'Peralatan Kantor' ? 'selected' : '' }}>Peralatan Kantor</option>
+                                <option value="Peralatan Kebersihan" {{ old('kategori') == 'Peralatan Kebersihan' ? 'selected' : '' }}>Peralatan Kebersihan</option>
+                                <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
                             @error('kategori') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">

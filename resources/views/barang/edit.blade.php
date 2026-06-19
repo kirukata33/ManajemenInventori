@@ -1,4 +1,4 @@
-@php $b = $barang @endphp
+@php $VALBARANG = $barang @endphp
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center gap-3">
@@ -7,7 +7,7 @@
             </a>
             <div>
                 <h1 class="text-xl font-bold text-slate-900 tracking-tight">Edit Barang</h1>
-                <p class="text-xs text-slate-500 mt-0.5">{{ $barang->kode_barang }} — {{ $barang->nama_barang }}</p>
+                <p class="text-xs text-slate-500 mt-0.5">{{ $VALBARANG->kode_barang }} — {{ $VALBARANG->nama_barang }}</p>
             </div>
         </div>
     </x-slot>
@@ -23,42 +23,57 @@
                 </div>
             </div>
             <div class="content-section-body">
-                <form method="POST" action="{{ route('barang.update', $barang) }}">
+                <form method="POST" action="{{ route('barang.update', $VALBARANG) }}">
                     @csrf @method('PUT')
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div class="form-group">
                             <label>Kode Barang</label>
-                            <input type="text" value="{{ $barang->kode_barang }}" class="form-input !bg-slate-50 !text-slate-400 cursor-not-allowed" disabled>
+                            <input type="text" value="{{ $VALBARANG->kode_barang }}" class="form-input !bg-slate-50 !text-slate-400 cursor-not-allowed" disabled>
                         </div>
                         <div class="form-group">
                             <label>Nama Barang</label>
-                            <input type="text" name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" class="form-input">
+                            <input type="text" name="nama_barang" value="{{ old('nama_barang', $VALBARANG->nama_barang) }}" class="form-input" placeholder="Masukkan nama barang">
+                            @error('nama_barang') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <label>Kategori</label>
-                            <input type="text" name="kategori" value="{{ old('kategori', $barang->kategori) }}" class="form-input">
+                            <select name="kategori" id="kategori" class="form-input">
+                                <option value="" disabled>-- Pilih Kategori --</option>
+                                <option value="Elektronik" {{ old('kategori', $VALBARANG->kategori) == 'Elektronik' ? 'selected' : '' }}>Elektronik</option>
+                                <option value="Pakaian" {{ old('kategori', $VALBARANG->kategori) == 'Pakaian' ? 'selected' : '' }}>Pakaian</option>
+                                <option value="Makanan" {{ old('kategori', $VALBARANG->kategori) == 'Makanan' ? 'selected' : '' }}>Makanan</option>
+                                <option value="Minuman" {{ old('kategori', $VALBARANG->kategori) == 'Minuman' ? 'selected' : '' }}>Minuman</option>
+                                <option value="Alat Tulis" {{ old('kategori', $VALBARANG->kategori) == 'Alat Tulis' ? 'selected' : '' }}>Alat Tulis</option>
+                                <option value="Peralatan Kantor" {{ old('kategori', $VALBARANG->kategori) == 'Peralatan Kantor' ? 'selected' : '' }}>Peralatan Kantor</option>
+                                <option value="Peralatan Kebersihan" {{ old('kategori', $VALBARANG->kategori) == 'Peralatan Kebersihan' ? 'selected' : '' }}>Peralatan Kebersihan</option>
+                                <option value="Lainnya" {{ old('kategori', $VALBARANG->kategori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+                            @error('kategori') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <label>Satuan</label>
                             <select name="satuan" id="satuan" class="form-input">
                                 <option value="" disabled>-- Pilih Satuan --</option>
-                                <option value="pcs" {{ old('satuan', $barang->satuan) == 'pcs' ? 'selected' : '' }}>Pcs (Buah)</option>
-                                <option value="kg" {{ old('satuan', $barang->satuan) == 'kg' ? 'selected' : '' }}>Kg (Kilogram)</option>
-                                <option value="liter" {{ old('satuan', $barang->satuan) == 'liter' ? 'selected' : '' }}>Liter</option>
-                                <option value="box" {{ old('satuan', $barang->satuan) == 'box' ? 'selected' : '' }}>Box (Kotak)</option>
-                                <option value="rim" {{ old('satuan', $barang->satuan) == 'rim' ? 'selected' : '' }}>Rim (500 Lembar)</option>
-                                <option value="lusin" {{ old('satuan', $barang->satuan) == 'lusin' ? 'selected' : '' }}>Lusin (12 Buah)</option>
-                                <option value="meter" {{ old('satuan', $barang->satuan) == 'meter' ? 'selected' : '' }}>Meter</option>
-                                <option value="set" {{ old('satuan', $barang->satuan) == 'set' ? 'selected' : '' }}>Set</option>
+                                <option value="pcs" {{ old('satuan', $VALBARANG->satuan) == 'pcs' ? 'selected' : '' }}>Pcs (Buah)</option>
+                                <option value="kg" {{ old('satuan', $VALBARANG->satuan) == 'kg' ? 'selected' : '' }}>Kg (Kilogram)</option>
+                                <option value="liter" {{ old('satuan', $VALBARANG->satuan) == 'liter' ? 'selected' : '' }}>Liter</option>
+                                <option value="box" {{ old('satuan', $VALBARANG->satuan) == 'box' ? 'selected' : '' }}>Box (Kotak)</option>
+                                <option value="rim" {{ old('satuan', $VALBARANG->satuan) == 'rim' ? 'selected' : '' }}>Rim (500 Lembar)</option>
+                                <option value="lusin" {{ old('satuan', $VALBARANG->satuan) == 'lusin' ? 'selected' : '' }}>Lusin (12 Buah)</option>
+                                <option value="meter" {{ old('satuan', $VALBARANG->satuan) == 'meter' ? 'selected' : '' }}>Meter</option>
+                                <option value="set" {{ old('satuan', $VALBARANG->satuan) == 'set' ? 'selected' : '' }}>Set</option>
                             </select>
+                            @error('satuan') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <label>Stok</label>
-                            <input type="number" name="stok" value="{{ old('stok', $barang->stok) }}" class="form-input">
+                            <input type="number" name="stok" value="{{ old('stok', $VALBARANG->stok) }}" min="0" class="form-input">
+                            @error('stok') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <label>Stok Minimum</label>
-                            <input type="number" name="stok_minimum" value="{{ old('stok_minimum', $barang->stok_minimum) }}" class="form-input">
+                            <input type="number" name="stok_minimum" value="{{ old('stok_minimum', $VALBARANG->stok_minimum) }}" min="0" class="form-input">
+                            @error('stok_minimum') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
                     </div>
                     <div class="flex items-center gap-3 mt-8 pt-6 border-t border-slate-100">

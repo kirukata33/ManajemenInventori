@@ -4,6 +4,9 @@
         <p class="text-sm text-slate-500 mt-1.5">Daftar untuk mulai mengelola inventori Anda</p>
     </div>
 
+    <!-- Script Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -34,6 +37,12 @@
             <input id="password_confirmation" type="password" name="password_confirmation" class="form-input" placeholder="••••••••" required autocomplete="new-password">
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1.5" />
         </div>
+
+        <!-- Turnstile -->
+        <div class="cf-turnstile" data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}"></div>
+        @error('cf-turnstile-response')
+            <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p>
+        @enderror
 
         <button type="submit" class="btn btn-primary w-full justify-center py-3 text-base">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
