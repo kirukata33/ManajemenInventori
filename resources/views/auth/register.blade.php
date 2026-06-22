@@ -39,7 +39,7 @@
         </div>
 
         <!-- Turnstile -->
-        <div class="cf-turnstile" data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}"></div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAADmUPCAX7-MArsaE"></div>
         @error('cf-turnstile-response')
             <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p>
         @enderror
