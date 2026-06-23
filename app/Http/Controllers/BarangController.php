@@ -68,6 +68,8 @@ class BarangController extends Controller
             ]);
         }
 
+        \App\Models\ActivityLog::record('Tambah Barang', 'Menambahkan barang baru: ' . $barang->kode_barang . ' - ' . $barang->nama_barang);
+
         return redirect()->route('barang.index')
                          ->with('success', 'Barang berhasil ditambahkan!');
     }
@@ -121,6 +123,9 @@ class BarangController extends Controller
         }
 
         $barang->update($request->all());
+
+        \App\Models\ActivityLog::record('Ubah Barang', 'Mengubah data barang: ' . $barang->kode_barang . ' - ' . $barang->nama_barang);
+
         return redirect()->route('barang.index')
                          ->with('success', 'Barang berhasil diupdate!');
     }
@@ -132,7 +137,13 @@ class BarangController extends Controller
             abort(403, 'ANDA TIDAK PUNYA AKSES UNTUK MENGHAPUS BARANG.');
         }
 
+        $kode = $barang->kode_barang;
+        $nama = $barang->nama_barang;
+
         $barang->delete();
+
+        \App\Models\ActivityLog::record('Hapus Barang', 'Menghapus barang: ' . $kode . ' - ' . $nama);
+
         return redirect()->route('barang.index')
                          ->with('success', 'Barang berhasil dihapus!');
     }

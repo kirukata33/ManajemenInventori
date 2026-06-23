@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 
 class BarangKeluarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = BarangKeluar::with('barang')->latest();
+
+        if ($request->has('dari') && $request->has('sampai') && $request->dari != '' && $request->sampai != '') {
+            $query->whereBetween('tanggal_keluar', [$request->dari, $request->sampai]);
+        }
+
         // Semua role (Admin, Operator, Kepala Gudang) boleh melihat daftar barang keluar
-        $barangKeluars = BarangKeluar::with('barang')->latest()->get();
-        return view('barang-keluar.index', compact('barangKeluars'));
+        $barangKeluars = $query->get();
+        return view('barang-keluar.index', compact('barangKeluars', 'request'));
     }
 
     public function create()
@@ -53,6 +59,8 @@ class BarangKeluarController extends Controller
         // Kurangi stok barang
         $barang->stok -= $request->jumlah;
         $barang->save();
+
+        \App\Models\ActivityLog::record('Barang Keluar', 'Mencatat barang keluar untuk ' . $barang->nama_barang . ' sebanyak ' . $request->jumlah . ' ' . $barang->satuan);
 
         return redirect()->route('barang-keluar.index')
                          ->with('success', 'Barang keluar berhasil dicatat!');

@@ -11,6 +11,7 @@
         elseif (request()->routeIs('barang-masuk.*')) $pageTitle = 'Barang Masuk';
         elseif (request()->routeIs('barang-keluar.*')) $pageTitle = 'Barang Keluar';
         elseif (request()->routeIs('user.*')) $pageTitle = 'Manajemen User';
+        elseif (request()->routeIs('activity-log.*')) $pageTitle = 'Log Aktivitas';
         elseif (request()->routeIs('profile.*')) $pageTitle = 'Profil';
     @endphp
     <title>{{ $pageTitle }} - {{ config('app.name', 'InventManager') }}</title>
@@ -106,6 +107,13 @@
                         <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </span>
                     <span :class="miniSidebar ? 'lg:hidden' : ''" class="whitespace-nowrap transition-opacity duration-300">Manajemen User</span>
+                </a>
+                
+                <a href="{{ route('activity-log.index') }}" class="sidebar-link {{ request()->routeIs('activity-log.*') ? 'active' : '' }}" :class="miniSidebar ? 'lg:justify-center' : ''" :title="miniSidebar ? 'Log Aktivitas' : ''">
+                    <span class="link-icon {{ request()->routeIs('activity-log.*') ? 'bg-indigo-500/20 text-indigo-400' : 'bg-white/5 text-slate-400' }}">
+                        <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </span>
+                    <span :class="miniSidebar ? 'lg:hidden' : ''" class="whitespace-nowrap transition-opacity duration-300">Log Aktivitas</span>
                 </a>
                 @endif
                 @endauth

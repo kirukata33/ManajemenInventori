@@ -23,14 +23,31 @@
         <div class="content-section-header">
             <h3 class="text-base font-bold text-slate-900">Riwayat Barang Keluar</h3>
 
-            @auth
-            @if(auth()->user()->isAdmin() || auth()->user()->isOperator())
-                <a href="{{ route('barang-keluar.create') }}" class="btn btn-danger">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                    Catat Keluar
+            <div class="flex flex-wrap items-center gap-3">
+                <form action="{{ route('barang-keluar.index') }}" method="GET" class="flex items-center gap-2">
+                    <input type="date" name="dari" value="{{ request('dari') }}" class="form-input text-sm !py-2" title="Dari Tanggal">
+                    <span class="text-slate-400">-</span>
+                    <input type="date" name="sampai" value="{{ request('sampai') }}" class="form-input text-sm !py-2" title="Sampai Tanggal">
+                    <button type="submit" class="btn btn-primary !py-2 !px-3 shadow-none">Filter</button>
+                    @if(request('dari') || request('sampai'))
+                        <a href="{{ route('barang-keluar.index') }}" class="btn btn-ghost text-xs !py-2 px-2">Reset</a>
+                    @endif
+                </form>
+
+                <a href="{{ route('laporan.barang-keluar', ['dari' => request('dari'), 'sampai' => request('sampai')]) }}" target="_blank" class="btn bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Export PDF
                 </a>
-            @endif
-            @endauth
+
+                @auth
+                @if(auth()->user()->isAdmin() || auth()->user()->isOperator())
+                    <a href="{{ route('barang-keluar.create') }}" class="btn btn-danger">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        Catat Keluar
+                    </a>
+                @endif
+                @endauth
+            </div>
         </div>
 
         <div class="overflow-x-auto">

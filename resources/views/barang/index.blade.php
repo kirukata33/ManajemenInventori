@@ -13,14 +13,20 @@
 
     {{-- ALERT STOK MENIPIS --}}
     @if($stokMenipis->count() > 0)
-    <div class="alert alert-warning">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
-        <div>
-            <p class="font-bold">Stok Menipis!</p>
-            @foreach($stokMenipis as $item)
-                <span class="block text-sm">{{ $item->nama_barang }} — Stok: {{ $item->stok }}</span>
-            @endforeach
+    <div class="alert alert-warning flex justify-between items-start">
+        <div class="flex gap-3">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+            <div>
+                <p class="font-bold">Stok Menipis!</p>
+                @foreach($stokMenipis as $item)
+                    <span class="block text-sm">{{ $item->nama_barang }} — Stok: {{ $item->stok }}</span>
+                @endforeach
+            </div>
         </div>
+        <a href="{{ route('laporan.stok-menipis') }}" target="_blank" class="btn bg-white text-amber-600 hover:bg-amber-50 border border-amber-200 shadow-sm !py-1.5 !px-3 text-xs whitespace-nowrap mt-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Export PDF
+        </a>
     </div>
     @endif
 
@@ -57,6 +63,11 @@
                         Reset
                     </a>
                 @endif
+
+                <a href="{{ route('laporan.stok') }}" target="_blank" class="btn bg-emerald-50 text-emerald-600 hover:bg-emerald-100 border border-emerald-200 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Export PDF Stok
+                </a>
 
                 @auth
                 @if(auth()->user()->isAdmin() || auth()->user()->isOperator())

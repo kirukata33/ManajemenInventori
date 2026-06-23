@@ -7,6 +7,8 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ActivityLogController;
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -24,8 +26,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('barang-masuk', BarangMasukController::class);
     Route::resource('barang-keluar', BarangKeluarController::class);
     
-    // Rute Manajemen User, mungkin sebaiknya ditambah middleware admin jika ada
+    // Rute Laporan PDF
+    Route::get('/laporan/stok', [LaporanController::class, 'stokBarang'])->name('laporan.stok');
+    Route::get('/laporan/stok-menipis', [LaporanController::class, 'stokMenipis'])->name('laporan.stok-menipis');
+    Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])->name('laporan.barang-masuk');
+    Route::get('/laporan/barang-keluar', [LaporanController::class, 'barangKeluar'])->name('laporan.barang-keluar');
+
+    // Rute Manajemen User
     Route::resource('user', UserController::class);
+
+    // Rute Pengaturan
+    Route::get('/pengaturan/log-aktivitas', [ActivityLogController::class, 'index'])->name('activity-log.index');
 });
 
 require __DIR__.'/auth.php';

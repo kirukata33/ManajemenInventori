@@ -44,6 +44,23 @@
                 <span class="mx-3 font-medium">Barang Keluar</span>
             </a>
         </nav>
+
+        <div class="px-4 mt-8 mb-4">
+            <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Pengaturan</p>
+        </div>
+
+        <nav class="px-4 space-y-2">
+            @auth
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route('activity-log.index') }}" class="flex items-center px-4 py-3.5 {{ request()->routeIs('activity-log.*') ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 rounded-xl shadow-sm' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition-all duration-200 border border-transparent' }}">
+                <div class="p-1 {{ request()->routeIs('activity-log.*') ? 'bg-indigo-500/20 rounded-md' : 'bg-slate-800 rounded-md group-hover:bg-slate-700' }}">
+                    <svg class="w-4 h-4 {{ request()->routeIs('activity-log.*') ? 'text-indigo-400' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <span class="mx-3 font-medium">Log Aktivitas</span>
+            </a>
+            @endif
+            @endauth
+        </nav>
     </div>
 
     <div class="px-4 py-6 mt-10">

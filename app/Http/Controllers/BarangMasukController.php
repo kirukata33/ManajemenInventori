@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 
 class BarangMasukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = BarangMasuk::with('barang')->latest();
+
+        if ($request->has('dari') && $request->has('sampai') && $request->dari != '' && $request->sampai != '') {
+            $query->whereBetween('tanggal_masuk', [$request->dari, $request->sampai]);
+        }
+
         // Semua role (Admin, Operator, Kepala Gudang) boleh melihat daftar barang masuk
-        $barangMasuks = BarangMasuk::with('barang')->latest()->get();
-        return view('barang-masuk.index', compact('barangMasuks'));
+        $barangMasuks = $query->get();
+        return view('barang-masuk.index', compact('barangMasuks', 'request'));
     }
 
     public function create()
@@ -47,6 +53,8 @@ class BarangMasukController extends Controller
         $barang = Barang::find($request->barang_id);
         $barang->stok += $request->jumlah;
         $barang->save();
+
+        \App\Models\ActivityLog::record('Barang Masuk', 'Mencatat barang masuk untuk ' . $barang->nama_barang . ' sebanyak ' . $request->jumlah . ' ' . $barang->satuan);
 
         return redirect()->route('barang-masuk.index')
                          ->with('success', 'Barang masuk berhasil dicatat!');
