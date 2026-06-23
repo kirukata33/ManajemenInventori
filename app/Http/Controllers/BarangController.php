@@ -53,6 +53,7 @@ class BarangController extends Controller
             'satuan'       => 'required',
             'stok'         => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
+            'supplier'     => 'nullable|string',
         ]);
 
         $barang = Barang::create($request->all());
@@ -63,7 +64,7 @@ class BarangController extends Controller
                 'barang_id'     => $barang->id,
                 'jumlah'        => $barang->stok,
                 'tanggal_masuk' => now()->toDateString(),
-                'supplier'      => 'Sistem',
+                'supplier'      => $request->supplier ?? 'Sistem',
                 'keterangan'    => 'Stok Awal (Penambahan Barang Baru)',
             ]);
         }

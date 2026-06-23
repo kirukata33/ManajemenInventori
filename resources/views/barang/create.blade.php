@@ -75,6 +75,11 @@
                             <input type="number" name="stok_minimum" value="{{ old('stok_minimum', 5) }}" min="0" class="form-input">
                             @error('stok_minimum') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
                         </div>
+                        <div class="form-group sm:col-span-2">
+                            <label>Keterangan / Dari Siapa (Opsional)</label>
+                            <input type="text" name="supplier" value="{{ old('supplier') }}" class="form-input" placeholder="Contoh: Supplier A, Hibah, dll (Kosongkan jika tidak ada)">
+                            @error('supplier') <p class="text-rose-500 text-xs mt-1.5 font-medium">{{ $message }}</p> @enderror
+                        </div>
                     </div>
                     <div class="flex items-center gap-3 mt-8 pt-6 border-t border-slate-100">
                         <button type="submit" class="btn btn-primary">
