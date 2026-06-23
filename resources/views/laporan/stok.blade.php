@@ -32,7 +32,7 @@
             <td><strong>{{ $barang->nama_barang }}</strong></td>
             <td>{{ $barang->kategori }}</td>
             <td style="text-align: center;">{{ $barang->satuan }}</td>
-            <td style="text-align: center; font-weight: bold; {{ $barang->stok <= $barang->stok_minimum ? 'color: #e11d48;' : 'color: #059669;' }}">
+            <td style="text-align: center; font-weight: bold; {{ $barang->stok < $barang->stok_minimum ? 'color: #e11d48;' : 'color: #059669;' }}">
                 {{ $barang->stok }}
             </td>
             <td style="text-align: center; color: #666;">{{ $barang->stok_minimum }}</td>

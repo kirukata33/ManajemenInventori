@@ -101,7 +101,7 @@
                 </thead>
                 <tbody>
                     @forelse($barangs as $barang)
-                    <tr class="{{ $barang->stok <= $barang->stok_minimum ? 'bg-rose-50/40' : '' }}">
+                    <tr class="{{ $barang->stok < $barang->stok_minimum ? 'bg-rose-50/40' : '' }}">
                         <td class="text-slate-400 font-medium">{{ $loop->iteration }}</td>
                         <td>
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-mono font-semibold">
@@ -113,7 +113,7 @@
                         <td class="text-slate-500">{{ $barang->satuan }}</td>
                         <td class="text-center">
                             <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl text-sm font-bold
-                                {{ $barang->stok <= $barang->stok_minimum ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700' }}">
+                                {{ $barang->stok < $barang->stok_minimum ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700' }}">
                                 {{ $barang->stok }}
                             </span>
                         </td>

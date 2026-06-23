@@ -24,7 +24,7 @@ class BarangController extends Controller
             ->get();
 
         // 3. Stok menipis tidak perlu difilter, tetap tampilkan semua sebagai alert
-        $stokMenipis = Barang::whereColumn('stok', '<=', 'stok_minimum')->get();
+        $stokMenipis = Barang::whereColumn('stok', '<', 'stok_minimum')->get();
 
         return view('barang.index', compact('barangs', 'stokMenipis'));
     }

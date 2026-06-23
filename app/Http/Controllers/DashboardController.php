@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $totalBarang     = Barang::count();
         $masukHariIni    = BarangMasuk::whereDate('tanggal_masuk', today())->sum('jumlah');
         $keluarHariIni   = BarangKeluar::whereDate('tanggal_keluar', today())->sum('jumlah');
-        $stokMenipis     = Barang::whereColumn('stok', '<=', 'stok_minimum')->get();
+        $stokMenipis     = Barang::whereColumn('stok', '<', 'stok_minimum')->get();
         
         $transaksiTerbaru = collect(
             BarangMasuk::with('barang')->latest()->take(3)->get()->map(fn($i) => [

@@ -25,7 +25,7 @@ class LaporanController extends Controller
 
     public function stokMenipis()
     {
-        $barangs = Barang::whereColumn('stok', '<=', 'stok_minimum')
+        $barangs = Barang::whereColumn('stok', '<', 'stok_minimum')
             ->orderBy('stok', 'asc')
             ->get();
 
