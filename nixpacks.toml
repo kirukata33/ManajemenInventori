@@ -1,8 +1,6 @@
 [phases.install]
 cmds = [
-  "rm -rf node_modules package-lock.json ~/.npm",
-  "npm install -g npm@10",
-  "npm cache clean --force",
-  "npm install --include=optional",
-  "composer install --no-dev"
+  "rm -rf node_modules package-lock.json",
+  "npm install -g pnpm",
+  "pnpm install"
 ]
